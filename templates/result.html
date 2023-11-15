@@ -4,15 +4,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scan Result</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            color: hsl(187, 61%, 32%);
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
 </head>
 <body>
-    <h1>Scan Result</h1>
-    <p>Scanning ports on {{ target }}:</p>
-    <ul>
-        {% for port in open_ports %}
-            <li>Port {{ port }} on {{os_type}} is open, Web server identified: {{server_info}}</li>
+    <h1>Scan Result for {{ target }}</h1>
+    <p>Operating System: {{ os_type }}</p>
+    <p>Server Information: {{ server_info }}</p>
+    
+    <h2>Open Ports:</h2>
+    <table>
+        <tr>
+            <th>Port</th>
+            <th>Status</th>
+            <th>OS Type</th>
+        </tr>
+        {% for port, status, os_type in open_ports %}
+            <tr>
+                <td>{{ port }}</td>
+                <td>{{ status }}</td>
+                <td>{{ os_type }}</td>
+            </tr>
         {% endfor %}
-    </ul>
-    <a href="/">Back to Home</a>
+    </table>
 </body>
 </html>
