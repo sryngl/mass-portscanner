@@ -3,7 +3,7 @@ import socket
 import concurrent.futures
 from scapy.all import IP, TCP, ICMP, sr1
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static')
 
 def scan_port(target, port, scan_type="SYN"):
     try:
@@ -66,7 +66,6 @@ def detect_os_advanced(target):
 
     return "Unknown"
 
-# 使用这个函数进行操作系统识别
 os_info = detect_os_advanced("target_ip")
 print(os_info)
 
@@ -88,13 +87,26 @@ def scan_ports(target, start_port, end_port, scan_type="SYN"):
 def index():
     return render_template('index.html')
 
+def scan_ports(target, start_port, end_port, scan_type="SYN"):
+    open_ports = []
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        futures = [executor.submit(scan_port, target, port, scan_type) for port in range(start_port, end_port + 1)]
+        for future in concurrent.futures.as_completed(futures):
+            result = future.result()
+            if result is not None:
+                port, status, os_type = result
+                open_ports.append((port, status, os_type))
+                print(f"Port {port} is {status} on {os_type} system")
+    return open_ports
+
 @app.route('/scan', methods=['POST'])
 def scan():
     target = request.form['target']
     num_threads = int(request.form['num_threads'])
+    scan_type = request.form['scan_type']  # 获取用户选择的扫描方式
 
     start_port = 1
-    end_port = 9090
+    end_port = 1000
 
     ports_per_thread = (end_port - start_port + 1) // num_threads
     start_ports = [start_port + i * ports_per_thread for i in range(num_threads)]
@@ -102,15 +114,17 @@ def scan():
 
     open_ports = []
 
-    os_info = detect_os(target)  # 获取操作系统信息
-    server_info = detect_os_advanced(target)  # 获取服务器信息
+    os_type = detect_os(target)
+    server_info = detect_os_advanced(target)
 
     for start, end in zip(start_ports, end_ports):
-        open_ports.extend(scan_ports(target, start, end, scan_type="FIN"))
+        open_ports.extend(scan_ports(target, start, end, scan_type))
 
     print("Scan completed. Open ports:", open_ports)
-    return render_template('result.html', target=target, num_threads=num_threads, open_ports=open_ports, os_type=os_info, server_info=server_info)
+    return render_template('result.html', target=target, num_threads=num_threads, open_ports=open_ports, os_type=os_type, server_info=server_info)
 
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+    
