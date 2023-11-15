@@ -1,0 +1,83 @@
+body 
+{
+    margin: 0; /* 重置默认的 body 边距 */
+    padding: 0; /* 重置默认的 body 内边距 */
+    height: 100vh; /* 将 body 高度设置为视口高度 */
+    background-image: url('/static/image.jpg'); /* 替换为你的壁纸图片路径 */
+    background-size: cover; /* 按比例缩放图片以填充整个容器 */
+    background-position: center; /* 图片居中显示 */
+    background-repeat: no-repeat; /* 防止图片重复 */
+    text-align: center;
+    
+}
+
+h1
+{
+    font-size: 2.5em;
+    margin-top: 100px;
+    margin-bottom: 130px;
+    color:aliceblue;
+}
+
+h3
+{
+    margin-bottom:10px;
+    color:aliceblue;
+}
+
+form 
+{
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+label
+{
+    display: block;
+    margin-bottom: 10px;
+    font-size: 1.2em;
+}
+
+input
+{
+    font-size: 1.2em
+}
+
+#selectbox select
+{
+    font-size: 1em;
+    padding: 8px;
+}
+
+#selectbox option
+{
+    font-size: 1em;
+}
+
+#submit button
+{
+    margin-top: 15px;
+    font-size: 1.2em;
+}
+
+h1:hover
+{
+    animation-name: colorChange;
+    animation-duration: 1s;
+    animation-iteration-count: 2;
+}
+
+@keyframes colorChange 
+{
+    0%   { color: hsl(0, 100%, 62%);   }   
+    20%  { color: hsl(30, 100%, 62%);  } 
+    40%  { color: hsl(60, 100%, 62%);  } 
+    33%  { color: hsl(115, 100%, 62%); } 
+    66%  { color: hsl(205, 100%, 62%); } 
+    100% { color: hsl(275, 100%, 62%); } 
+}
+
+label:hover
+{
+    color: #80ff00;
+}
