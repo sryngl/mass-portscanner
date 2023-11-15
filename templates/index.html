@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Port Scanner</title>
+</head>
+<body>
+    <h1>Port Scanner</h1>
+    <form action="/scan" method="post">
+        <label for="target">Target IP:</label>
+        <input type="text" id="target" name="target" required><br>
+        <label for="num_threads">Number of Threads:</label>
+        <input type="number" id="num_threads" name="num_threads" required><br>
+        <input type="submit" value="Scan">
+    </form>
+</body>
+</html>
