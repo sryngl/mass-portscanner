@@ -4,15 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Port Scanner</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <h1>Port Scanner</h1>
+
     <form action="/scan" method="post">
-        <label for="target">Target IP:</label>
-        <input type="text" id="target" name="target" required><br>
-        <label for="num_threads">Number of Threads:</label>
-        <input type="number" id="num_threads" name="num_threads" required><br>
-        <input type="submit" value="Scan">
+        <div id="label1">
+            <h3><label for="target">Target IP:</label></h3>
+        </div>
+        <input type="text" name="target" id="target" required>
+
+        <div id="label2">
+            <h3><label for="num_threads">Number of Threads:</label></h3>
+        </div>
+
+        <input type="number" name="num_threads" id="num_threads" required>
+   
+
+        <div id="label3">
+            <h3><label for="scan_type">Scan Type:</label></h3>
+        </div>
+        <div id="selectbox">
+            <select name="scan_type" id="scan_type">
+                <option value="SYN">SYN Scan</option>
+                <option value="FIN">FIN Scan</option>
+                <option value="XMAS">XMAS Scan</option>
+            </select>
+        </div>
+        
+        <div id="submit">
+            <button type="submit">Start Scanner</button>
+        </div>
     </form>
+
 </body>
 </html>
